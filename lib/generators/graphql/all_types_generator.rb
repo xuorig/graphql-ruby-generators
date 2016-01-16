@@ -4,26 +4,35 @@ module Graphql
   module Generators
     class AllTypesGenerator < BaseTypeGenerator
       desc 'Creates GraphQL types for all ActiveRecord models'
-      source_root ::File.expand_path('../templates', __FILE__)
+
+      TYPE_FOR_COLUMN = {
+        integer: 'Int',
+        string: 'String',
+        float: 'FLoat',
+        boolean: 'Boolean'
+      }
 
       def create_all_types
         models.each do |model|
-          fields = model.columns.map { |field|
-            {
-              name: field.name,
-              type: TYPE_COLUMN_MAPPING[field.type] ||
+          fields = model.columns.map { |column|
+            name = column.name
+            type = TYPE_FOR_COLUMN[column.type] ||
                     field.type.to_s.camelize
-            }
+            "field #{name}, types.#{type}"
           }
           create_type_file(
             model.name,
-            "description 123",
+            "Todo: Describe #{model.name}",
             fields
           )
         end
       end
 
       private
+
+      def field_definitions
+
+      end
 
       def models
         Rails.application.eager_load! unless Rails.configuration.cache_classes

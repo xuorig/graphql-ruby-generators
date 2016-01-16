@@ -5,11 +5,6 @@ module Graphql
     class BaseTypeGenerator < Rails::Generators::Base
       source_root ::File.expand_path('../templates', __FILE__)
 
-      TYPE_COLUMN_MAPPING = {
-        integer: 'Int',
-        string: 'String'
-      }
-
       private
 
       def create_type_file(name, description, fields)

@@ -2,6 +2,6 @@
   name '<%= @name %>'
   description '<%= @description %>'
 <% @fields.each do |field| -%>
-  field :<%= field[:name] %>, !types.<%= field[:type] %>
+  <%= field %>
 <% end -%>
 end
